@@ -1,0 +1,102 @@
+<template>
+  <q-layout view="hHh Lpr lff" container style="height: 100vh" class="shadow-2">
+    <q-header elevated class="bg-primary ">
+      <q-toolbar>
+        <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+        <q-toolbar-title>ARFIT</q-toolbar-title>
+        <q-space />
+        <div class="cursor-pointer" @click="confirm = true">
+          <q-icon name="logout" size="large" />
+        </div>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
+      v-model="drawer"
+      show-if-above
+      :mini="miniState"
+      @mouseover="miniState = false"
+      @mouseout="miniState = true"
+      mini-to-overlay
+      :width="250"
+      bordered
+      content-class="bg-white "
+    >
+      <q-list padding>
+        <template v-for="route in routes">
+          <router-link :key="route.name" exact :to="{ name: route.name }">
+            <q-item clickable v-ripple @click="activeTitle = route.text">
+              <q-item-section avatar class="text-primary">
+                <q-icon :name="route.icon_name" />
+              </q-item-section>
+
+              <q-item-section class="text-black">
+                {{ route.text }}
+              </q-item-section>
+            </q-item>
+          </router-link>
+        </template>
+      </q-list>
+    </q-drawer>
+
+    <q-dialog v-model="confirm" persistent>
+      <q-card style="width: 660px">
+        <q-card-section>
+          <h6 class="q-ma-none">Chiqish</h6>
+        </q-card-section>
+        <q-card-section class="row items-center">
+          <span class="q-ml-sm">
+            <p class="text-subtitle1">Ilovadan chiqmoqchimisiz ?</p>
+          </span>
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn
+            flat
+            label="HA"
+            color="primary"
+            v-close-popup
+            @click="onQuiteConfirmed"
+          />
+          <q-btn flat label="YO'Q" color="primary" v-close-popup />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-page-container>
+      <div class="q-pa-md">
+        <q-card style="min-height: 100vh">
+          <q-card-section>
+            <p class="text-center text-h5 text-uppercase">{{ activeTitle }}</p>
+            <div class="q-pa-md">
+              <router-view />
+            </div>
+          </q-card-section>
+        </q-card>
+      </div>
+    </q-page-container>
+  </q-layout>
+</template>
+<script>
+export default {
+  props: ["routes"],
+  name: "MainLayout",
+  data() {
+    return {
+      miniState: true,
+      active: true,
+      drawer: false,
+      activeTitle: "",
+      confirm: false
+    };
+  },
+  mounted() {},
+  methods: {
+    onQuiteConfirmed() {
+      this.$store.dispatch("LOGOUT");
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped></style>
