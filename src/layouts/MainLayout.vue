@@ -3,7 +3,7 @@
     <q-header elevated class="bg-primary ">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-        <q-toolbar-title>ARFIT</q-toolbar-title>
+        <q-toolbar-title>{{ $t("companyName") }}</q-toolbar-title>
         <q-space />
         <div class="cursor-pointer" @click="confirm = true">
           <q-icon name="logout" size="large" />

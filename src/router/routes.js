@@ -5,7 +5,7 @@ function guardAuth(to, from, next) {
   if (sessionStorage.getItem("accessToken")) isAuth = true;
   else isAuth = false;
 
-  isAuth ? next() : next("/login");
+  isAuth ? next() : next("/");
 }
 
 const routes = [
@@ -13,6 +13,7 @@ const routes = [
     path: "/admin",
     component: () => import("layouts/MainLayout.vue"),
     props: { routes: AdminRoutes },
+    beforeEnter: guardAuth,
     children: [
       {
         path: "/admin",

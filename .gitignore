@@ -31,3 +31,6 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+'/home/eldor/Desktop/ArDesctop/ArFitDesctop/quasar.conf.js'
+.env

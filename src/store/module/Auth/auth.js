@@ -1,5 +1,4 @@
 import { api } from "boot/axios";
-import { Notify } from "quasar";
 import { ADMIN, SELLER } from "./constants";
 
 export default {
@@ -25,7 +24,7 @@ export default {
     LOGOUT({ commit }) {
       sessionStorage.clear();
       location.reload();
-      this.$router.push("/login");
+      this.$router.push("/");
     }
   },
   mutations: {
