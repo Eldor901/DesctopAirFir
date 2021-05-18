@@ -1,1 +1,17 @@
 // app global css in SCSS form
+
+a {
+  text-decoration: none;
+  background-color: white;
+  color: white;
+  &:hover {
+    color: white;
+  }
+  &:focus {
+    color: white;
+  }
+}
+
+.border_default {
+  border-radius: 10px;
+}

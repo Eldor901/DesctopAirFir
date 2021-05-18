@@ -1,17 +1,12 @@
 export const AdminRoutes = [
   {
     name: "addShoes",
-    icon_name: "person",
+    icon_name: "adjust",
     text: "Добавить Обувь"
   },
   {
     name: "employees",
-    icon_name: "person",
-    text: "Сотдрудники"
-  },
-  {
-    name: "shoes",
-    icon_name: "person",
-    text: "Все Обуви"
+    icon_name: "perm_identity",
+    text: "Продавцы"
   }
 ];

@@ -1,57 +1,69 @@
 <template>
   <q-layout>
     <q-page-container>
-      <q-page class="flex bg-image flex-center">
-        <q-card
+      <q-page class="flex flex-center">
+        <div
+          class="text-center"
           v-bind:style="$q.screen.lt.sm ? { width: '80%' } : { width: '30%' }"
         >
-          <q-card-section>
-            <q-avatar size="103px" class="absolute-center shadow-10">
-              <img src="profile.svg" />
-            </q-avatar>
-          </q-card-section>
-          <q-card-section>
-            <div class="text-center q-pt-lg">
-              <div class="col text-h6 ellipsis">
-                Вход
+          <arfit-login-svg />
+          <q-card>
+            <q-card-section>
+              <div class="text-center q-pt-lg">
+                <div class="col text-h5 ellipsis">
+                  Вход
+                </div>
               </div>
-            </div>
-          </q-card-section>
-          <q-card-section>
-            <q-form class="q-gutter-md" @submit.prevent="onSubmit">
-              <q-input
-                :rules="[isValidEmail]"
-                filled
-                v-model="username"
-                label="Email"
-                lazy-rules
-              />
-              <q-input
-                type="password"
-                filled
-                v-model="password"
-                :rules="[
-                  val =>
-                    (val && val.length > 6) ||
-                    'пороль должен содержать не мение 6 символов'
-                ]"
-                label="Пороль"
-                lazy-rules
-              />
+            </q-card-section>
+            <q-card-section>
+              <q-form class="" @submit.prevent="onSubmit">
+                <q-input
+                  class="q-mb-sm"
+                  :rules="[isValidEmail]"
+                  filled
+                  v-model="username"
+                  label="Email"
+                  lazy-rules
+                />
+                <q-input
+                  type="password"
+                  class="q-pa-none"
+                  filled
+                  v-model="password"
+                  :rules="[
+                    val =>
+                      (val && val.length > 6) ||
+                      'пороль должен содержать не мение 6 символов'
+                  ]"
+                  label="Пороль"
+                  lazy-rules
+                />
+                <div class="text-right q-pt-lg q-pb-sm">
+                  <span class="cursor-pointer">Забыли парол?</span>
+                </div>
 
-              <div class="text-center">
-                <q-btn label="Войти" type="submit" color="primary" />
-              </div>
-            </q-form>
-          </q-card-section>
-        </q-card>
+                <div class="text-center">
+                  <q-btn
+                    label="Войти"
+                    class="q-px-xl q-py-xs q-my-md"
+                    type="submit"
+                    color="primary"
+                  />
+                </div>
+              </q-form>
+            </q-card-section>
+          </q-card>
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
+import ArfitLoginSvg from "src/assets/svg/ArfitLoginSvg.vue";
+
 export default {
+  components: { ArfitLoginSvg },
   data() {
     return {
       username: "",
@@ -76,6 +88,6 @@ export default {
 
 <style>
 .bg-image {
-  background-image: linear-gradient(135deg, blue 0%, black);
+  background-image: linear-gradient(135deg, white 0%, white);
 }
 </style>

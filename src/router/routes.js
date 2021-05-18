@@ -40,10 +40,18 @@ const routes = [
   },
   // Always leave this as last one,
   // but you can also remove it
+
   {
-    path: "/",
+    path: "/login",
+    name: "login",
     component: () => import("pages/Login.vue")
   },
+
+  {
+    path: "/",
+    redirect: { name: "login" }
+  },
+
   {
     path: "*",
     component: () => import("pages/Error404.vue")

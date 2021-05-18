@@ -5,6 +5,9 @@
 </template>
 <script>
 export default {
-  name: "App"
+  name: "App",
+  mounted() {
+    this.$store.dispatch("TOKEN_SET_GLOBALLY");
+  }
 };
 </script>

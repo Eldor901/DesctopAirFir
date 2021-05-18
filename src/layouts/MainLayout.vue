@@ -1,36 +1,42 @@
 <template>
-  <q-layout view="hHh Lpr lff" container style="height: 100vh" class="shadow-2">
-    <q-header elevated class="bg-primary ">
+  <q-layout view="lHh lpR fFf">
+    <q-header elevated class="bg-secondary text-primary">
       <q-toolbar>
-        <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-        <q-toolbar-title>{{ $t("companyName") }}</q-toolbar-title>
-        <q-space />
-        <div class="cursor-pointer" @click="confirm = true">
-          <q-icon name="logout" size="large" />
-        </div>
+        <q-btn dense flat round icon="menu" @click="left = !left" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="drawer"
-      show-if-above
-      :mini="miniState"
-      @mouseover="miniState = false"
-      @mouseout="miniState = true"
-      mini-to-overlay
-      :width="250"
-      bordered
-      content-class="bg-white "
-    >
+    <q-drawer show-if-above v-model="left" side="left" elevated>
       <q-list padding>
+        <div class="text-center q-mt-sm">
+          <arfit-admin-svg />
+        </div>
         <template v-for="route in routes">
           <router-link :key="route.name" exact :to="{ name: route.name }">
-            <q-item clickable v-ripple @click="activeTitle = route.text">
-              <q-item-section avatar class="text-primary">
+            <q-item
+              class="q-mx-md q-my-sm border_default item_hover"
+              :active="route.name === activeRouteName"
+              active-class="bg-primary"
+              clickable
+              @click="activeRouteName = route.name"
+              v-ripple
+            >
+              <q-item-section
+                avatar
+                :class="
+                  route.name === activeRouteName ? 'text-white' : 'text-black'
+                "
+              >
                 <q-icon :name="route.icon_name" />
               </q-item-section>
 
-              <q-item-section class="text-black">
+              <q-item-section
+                :class="
+                  route.name === activeRouteName
+                    ? 'text-secondary'
+                    : 'text-primary'
+                "
+              >
                 {{ route.text }}
               </q-item-section>
             </q-item>
@@ -39,64 +45,34 @@
       </q-list>
     </q-drawer>
 
-    <q-dialog v-model="confirm" persistent>
-      <q-card style="width: 660px">
-        <q-card-section>
-          <h6 class="q-ma-none">Chiqish</h6>
-        </q-card-section>
-        <q-card-section class="row items-center">
-          <span class="q-ml-sm">
-            <p class="text-subtitle1">Ilovadan chiqmoqchimisiz ?</p>
-          </span>
-        </q-card-section>
-
-        <q-card-actions align="right">
-          <q-btn
-            flat
-            label="HA"
-            color="primary"
-            v-close-popup
-            @click="onQuiteConfirmed"
-          />
-          <q-btn flat label="YO'Q" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-
     <q-page-container>
-      <div class="q-pa-md">
-        <q-card style="min-height: 100vh">
-          <q-card-section>
-            <p class="text-center text-h5 text-uppercase">{{ activeTitle }}</p>
-            <div class="q-pa-md">
-              <router-view />
-            </div>
-          </q-card-section>
-        </q-card>
-      </div>
+      <router-view />
     </q-page-container>
   </q-layout>
 </template>
+
 <script>
+import ArfitAdminSvg from "src/assets/svg/ArfitAdminSvg.vue";
 export default {
+  components: { ArfitAdminSvg },
   props: ["routes"],
-  name: "MainLayout",
   data() {
     return {
-      miniState: true,
-      active: true,
-      drawer: false,
-      activeTitle: "",
-      confirm: false
+      left: false,
+      active: false,
+      activeRouteName: ""
     };
-  },
-  mounted() {},
-  methods: {
-    onQuiteConfirmed() {
-      this.$store.dispatch("LOGOUT");
-    }
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.item_hover {
+  &:hover {
+    background: $accent;
+  }
+  &:focus {
+    background: $accent;
+  }
+}
+</style>
