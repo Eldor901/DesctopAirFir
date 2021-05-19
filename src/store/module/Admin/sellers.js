@@ -1,6 +1,8 @@
 import Vue from "vue";
+import { Notify } from "quasar";
 import * as types from "../../mutation-types";
 import doAsync from "../utils/async-util";
+import { api } from "boot/axios";
 
 export default {
   state: {},
@@ -12,6 +14,20 @@ export default {
           mutationTypes: types.GET_INFO_ASYNC_SELLERS
         });
       } catch (e) {}
+    },
+
+    async AddSeller(store, data) {
+      try {
+        await api.post("sellers", data);
+        Notify.create({
+          message: "Вы успешно добавили продовца",
+          type: "positive",
+          position: "top"
+        });
+        store.dispatch("FetchSellers");
+      } catch (e) {
+        console.log(e);
+      }
     }
   },
   mutations: {

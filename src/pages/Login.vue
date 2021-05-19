@@ -19,7 +19,7 @@
               <q-form class="" @submit.prevent="onSubmit">
                 <q-input
                   class="q-mb-sm"
-                  :rules="[isValidEmail]"
+                  :rules="[ValidateEmail]"
                   filled
                   v-model="username"
                   label="Email"
@@ -61,6 +61,7 @@
 
 <script>
 import ArfitLoginSvg from "src/assets/svg/ArfitLoginSvg.vue";
+import { isValidEmail } from "src/utils/emailValidation.js";
 
 export default {
   components: { ArfitLoginSvg },
@@ -78,9 +79,8 @@ export default {
         password: this.password
       });
     },
-    isValidEmail() {
-      const emailPattern = /^(?=[a-zA-Z0-9@._%+-]{6,254}$)[a-zA-Z0-9._%+-]{1,64}@(?:[a-zA-Z0-9-]{1,63}\.){1,8}[a-zA-Z]{2,63}$/;
-      return emailPattern.test(this.username) || "пожулуста ввидите email";
+    async ValidateEmail(val) {
+      return isValidEmail(val);
     }
   }
 };

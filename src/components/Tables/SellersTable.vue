@@ -1,49 +1,78 @@
 <template>
   <div>
-    <div v-if="$store.state.sellers">
-      <pre>{{ $store.state.sellers }}</pre>
-    </div>
-    <div v-if="$store.state.shoes">
-      <pre>{{ $store.state.shoes }}</pre>
-    </div>
+    <q-table
+      :loading="$store.state.sellers.getInfoSellersLoading"
+      :data="$store.state.sellers.getInfoSellersData"
+      :columns="columns"
+      :pagination.sync="pagination"
+      :filter="filter"
+      row-key="id"
+    >
+      <template v-slot:top-right>
+        <q-btn color="primary q-mr-sm" @click="isFormOpen = true"
+          >Добавить</q-btn
+        >
+        <q-btn color="primary" @click="getUsers">Обновить</q-btn>
+      </template>
+      <template v-slot:top-left>
+        <q-input dense debounce="300" v-model="filter" placeholder="поиск">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </template>
+    </q-table>
+    <add-seller-form :isFormOpen="isFormOpen" @onClose="isFormOpen = $event" />
   </div>
 </template>
 
 <script>
+import AddSellerForm from "../forms/sellers/AddSellerForm.vue";
 export default {
   name: "Sellers",
+  components: { AddSellerForm },
   data() {
     return {
+      isFormOpen: false,
+      filter: "",
       columns: [
         {
           name: "email",
           required: true,
           label: "email",
-          field: row => row.name,
-          format: val => `${val}`,
+          align: "left",
+          field: "email",
           sortable: true
         },
         {
           name: "firstName",
-          required: true,
+          align: "left",
           label: "Имя",
-          field: row => row.name,
-          format: val => `${val}`,
+          field: "firstName",
           sortable: true
         },
         {
-          name: "secondName",
-          required: true,
+          name: "lastName",
+          align: "left",
           label: "Фамилия",
-          field: row => row.name,
-          format: val => `${val}`,
+          field: "lastName",
           sortable: true
         }
-      ]
+      ],
+      pagination: {
+        rowsPerPage: 10
+      }
     };
   },
+
   async created() {
     await this.$store.dispatch("FetchSellers");
+  },
+
+  methods: {
+    async getUsers() {
+      await this.$store.dispatch("FetchSellers");
+    }
   }
 };
 </script>
