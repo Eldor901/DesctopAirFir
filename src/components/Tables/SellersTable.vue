@@ -21,6 +21,23 @@
           </template>
         </q-input>
       </template>
+      <template v-slot:body-cell-action="props">
+        <td>
+          <div class="seller_container">
+            <q-icon
+              name="delete_outline"
+              class="icon_negative"
+              @click="deleteUser(props.key)"
+            />
+            {{ props.id }}
+            <q-icon
+              class="q-ml-sm icon_negative cursor-pointer"
+              name="lock_open"
+              @click="reset_password(props.key)"
+            />
+          </div>
+        </td>
+      </template>
     </q-table>
     <add-seller-form :isFormOpen="isFormOpen" @onClose="isFormOpen = $event" />
   </div>
@@ -57,6 +74,13 @@ export default {
           label: "Фамилия",
           field: "lastName",
           sortable: true
+        },
+        {
+          name: "action",
+          align: "center",
+          label: "",
+          field: "action",
+          sortable: true
         }
       ],
       pagination: {
@@ -72,9 +96,20 @@ export default {
   methods: {
     async getUsers() {
       await this.$store.dispatch("FetchSellers");
+    },
+    async deleteUser(id) {
+      await this.$store.dispatch("DeleteUser", id);
+    },
+
+    async reset_password(id) {
+      await this.$store.dispatch("ResetPassword", id);
     }
   }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.seller_container {
+  width: 25px;
+}
+</style>
