@@ -9,10 +9,21 @@
       row-key="id"
     >
       <template v-slot:top-right>
-        <q-btn color="primary q-mr-sm" @click="isFormOpen = true"
-          >Добавить</q-btn
-        >
-        <q-btn color="primary" @click="getUsers">Обновить</q-btn>
+        <div class="q-gutter-sm">
+          <q-btn
+            color="primary "
+            icon="add"
+            label="Добавить"
+            @click="isFormOpen = true"
+          />
+
+          <q-btn
+            color="primary"
+            label="Обновить"
+            icon="refresh"
+            @click="getUsers"
+          />
+        </div>
       </template>
       <template v-slot:top-left>
         <q-input dense debounce="300" v-model="filter" placeholder="поиск">
@@ -44,7 +55,7 @@
 </template>
 
 <script>
-import AddSellerForm from "../forms/sellers/AddSellerForm.vue";
+import AddSellerForm from "../forms/AddSellerForm.vue";
 export default {
   name: "Sellers",
   components: { AddSellerForm },

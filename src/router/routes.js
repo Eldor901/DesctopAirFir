@@ -18,7 +18,7 @@ const routes = [
       {
         path: "/admin",
         name: "addShoes",
-        component: () => import("pages/Admin/AddShoes")
+        component: () => import("pages/Admin/Products")
       },
       {
         path: "/admin/employees",
@@ -31,6 +31,11 @@ const routes = [
         component: () => import("pages/Admin/Shoes")
       }
     ]
+  },
+  {
+    path: "/admin/addProduct",
+    name: "addProduct",
+    component: () => import("pages/Admin/AddProduct")
   },
 
   {

@@ -2,7 +2,7 @@ export const AdminRoutes = [
   {
     name: "addShoes",
     icon_name: "adjust",
-    text: "Добавить Обувь"
+    text: "Обувь"
   },
   {
     name: "employees",

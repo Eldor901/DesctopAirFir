@@ -9,7 +9,7 @@ const createAsyncMutation = type => ({
 });
 
 export const GET_INFO_ASYNC_SELLERS = createAsyncMutation("GET_INFO_SELLERS");
-
 export const GET_INFO_ASYNC_SHOES_CATEGORIES = createAsyncMutation(
   "GET_INFO_SHOES_CATEGORIES"
 );
+export const GET_INFO_ASYNC_PRODUCTS = createAsyncMutation("GET_INFO_PRODUCTS");

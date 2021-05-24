@@ -1,5 +1,7 @@
 import { api } from "boot/axios";
 import { ADMIN, SELLER } from "./constants";
+import { Notify, Dialog } from "quasar";
+import ConfirmDialog from "src/components/Dialogs/ConfirmDialog.vue";
 
 export default {
   state: {
@@ -13,7 +15,13 @@ export default {
         sessionStorage.setItem("currentUserId", response.data.id);
         dispatch("TOKEN_SET_GLOBALLY", response.data.accessToken);
         commit("SET_LOGIN", response.data);
-      } catch (e) {}
+      } catch (e) {
+        Notify.create({
+          message: "пороль или логин введен неправильно.",
+          type: "negative",
+          position: "top"
+        });
+      }
     },
 
     TOKEN_SET_GLOBALLY({ commit }) {
@@ -22,9 +30,15 @@ export default {
     },
 
     LOGOUT({ commit }) {
-      sessionStorage.clear();
-      location.reload();
-      this.$router.push("/");
+      Dialog.create({
+        component: ConfirmDialog,
+        title: "Выход из системы",
+        text: "Вы дествительно хотите выйти из приложения?"
+      }).onOk(async data => {
+        sessionStorage.clear();
+        location.reload();
+        this.$router.push("/");
+      });
     }
   },
   mutations: {

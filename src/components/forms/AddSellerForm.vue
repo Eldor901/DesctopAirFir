@@ -63,7 +63,6 @@
 
 <script>
 import { isValidEmail } from "src/utils/emailValidation.js";
-
 export default {
   name: "AddSellerForm",
   props: ["isFormOpen"],

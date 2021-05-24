@@ -1,11 +1,20 @@
 <template>
   <q-layout view="lHh lpR fFf">
     <q-header elevated class="bg-secondary text-primary">
-      <q-toolbar>
-        <q-btn dense flat round icon="menu" @click="left = !left" />
+      <q-toolbar class="justify-between">
+        <div>
+          <q-btn dense flat round icon="menu" @click="left = !left" />
+        </div>
+        <div>
+          <q-icon
+            @click="onQuite"
+            name="logout"
+            class="cursor-pointer"
+            style="font-size: 25px;"
+          />
+        </div>
       </q-toolbar>
     </q-header>
-
     <q-drawer show-if-above v-model="left" side="left" elevated>
       <q-list padding>
         <div class="text-center q-mt-sm">
@@ -62,6 +71,11 @@ export default {
       active: false,
       activeRouteName: ""
     };
+  },
+  methods: {
+    async onQuite() {
+      await this.$store.dispatch("LOGOUT");
+    }
   }
 };
 </script>

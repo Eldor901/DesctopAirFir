@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import auth from "./module/Auth/auth";
 import sellers from "./module/Admin/sellers";
-import shoes from "./module/Admin/shoes";
+import products from "./module/Admin/products";
 
 // import example from './module-example'
 
@@ -22,7 +22,7 @@ export default function(/* { ssrContext } */) {
     modules: {
       auth,
       sellers,
-      shoes
+      products
     },
 
     // enable strict mode (adds overhead!)
