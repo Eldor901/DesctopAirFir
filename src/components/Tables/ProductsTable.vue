@@ -50,6 +50,7 @@
                 $store.state.products.getInfoProductsData.pageCount
             "
             direction-links
+            :max-pages="6"
             boundary-links
             icon-first="skip_previous"
             icon-last="skip_next"
@@ -68,7 +69,7 @@ export default {
   data() {
     return {
       params: {
-        take: 5,
+        take: 1,
         page: 1
       },
       columns: [

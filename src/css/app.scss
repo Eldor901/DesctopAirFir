@@ -16,6 +16,14 @@ a {
   border-radius: 10px;
 }
 
+.icon_hover {
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.2);
+    transition: all 300ms;
+  }
+}
+
 .icon_negative {
   font-size: 20px;
   cursor: pointer;
@@ -29,4 +37,8 @@ a {
 .app_border {
   border: 1px solid #c4c4c4;
   border-radius: 10px;
+}
+
+.q-btn {
+  border-radius: 10px !important;
 }

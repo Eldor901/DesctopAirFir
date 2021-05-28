@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import auth from "./module/Auth/auth";
 import sellers from "./module/Admin/sellers";
 import products from "./module/Admin/products";
+import uploadfile from "./module/file/uploadfile";
 
 // import example from './module-example'
 
@@ -22,7 +23,8 @@ export default function(/* { ssrContext } */) {
     modules: {
       auth,
       sellers,
-      products
+      products,
+      uploadfile
     },
 
     // enable strict mode (adds overhead!)
