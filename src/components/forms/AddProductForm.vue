@@ -21,10 +21,14 @@
             no-error-icon
             dense
             filled
-            v-model="form.price"
+            :value="form.price"
+            @input="form.price = Number($event)"
             label="цена (руб) *"
             lazy-rules
-            :rules="[val => val && val.length > 0]"
+            fill-mask="0"
+            reverse-fill-mask
+            mask="#"
+            :rules="[val => val]"
           />
           <q-select
             dense
@@ -37,7 +41,7 @@
             emit-value
             :options="$store.state.products.getInfoShoesCategoriesData.brands"
             :rules="[val => val]"
-            label="Бренд"
+            label="Брэнд"
           />
           <q-select
             dense
@@ -140,6 +144,7 @@
             <div v-if="allColors.length">
               <template v-for="renderColor of renderColors">
                 <add-color-field
+                  :renderValue="renderColor"
                   :key="renderColor.renderId"
                   :idRenderColor="renderColor.renderId"
                   :allColors="allColors"
@@ -171,14 +176,17 @@
 import AddColorField from "./AddColorField.vue";
 export default {
   components: { AddColorField },
+  props: ["formData"],
   name: "AddProductForm",
   data() {
     return {
       htmlColors: "",
       renderColors: [],
       allColors: [],
+      
       form: {
         name: "",
+        price: 0,
         description: "",
         brandId: "",
         typeId: "",
@@ -188,7 +196,6 @@ export default {
         soleMaterial: "",
         image: "",
         insoleMaterial: "",
-        price: "",
         sizes: [],
         colors: []
       }
@@ -197,10 +204,23 @@ export default {
   async created() {
     await this.$store.dispatch("FetchCategories");
     this.allColors = this.$store.getters.getAllColors;
+    if (this.formData.id) this.form = this.formData;
+    if (this.formData.colors) {
+      for (let val of this.formData.colors) {
+        this.renderColors.push({
+          renderId: Math.floor(Math.random() * Date.now()),
+          colorId: val.colorId,
+          name: val.color,
+          texture: val.texture
+        });
+      }
+    }
   },
 
   async mounted() {
-    this.onAddColor();
+    if (!this.form.colors) {
+      this.onAddColor();
+    }
   },
 
   methods: {
@@ -208,22 +228,23 @@ export default {
       const Idx = this.renderColors.findIndex(
         el => el.renderId === data.renderId
       );
-      if (Idx > 0) {
+
+      if (Idx >= 0) {
         this.renderColors[Idx] = data;
       }
+
       this.form.colors = this.renderColors;
     },
     async RemoveColor(data) {
-      console.log(data);
       this.renderColors = this.renderColors.filter(el => el.renderId !== data);
       this.form.colors = this.renderColors;
     },
 
     onAddColor() {
       this.renderColors.push({
-        renderId: Date.now(),
-        colorId: "",
-        texture: ""
+        renderId: Math.floor(Math.random() * Date.now()),
+        colorId: null,
+        texture: null
       });
     },
     mouseLeave(e) {
@@ -233,4 +254,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+</style>

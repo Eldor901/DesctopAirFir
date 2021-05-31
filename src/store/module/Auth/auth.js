@@ -5,7 +5,8 @@ import ConfirmDialog from "src/components/Dialogs/ConfirmDialog.vue";
 
 export default {
   state: {
-    userInfo: {}
+    userInfo: {},
+    userData: {}
   },
   actions: {
     async LOGIN({ commit, dispatch }, payload) {
@@ -22,6 +23,36 @@ export default {
           position: "top"
         });
       }
+    },
+
+    async FetchUserInfo({ commit }) {
+      try {
+        let response = await api.get("auth/profile");
+        return response.data;
+      } catch (e) {}
+    },
+
+    async ChangePassword({ commit }, payload) {
+      try {
+        const resp = await api.put(`/auth/change-password`, payload);
+        Notify.create({
+          message: "Пороль был успешно изменен",
+          color: "positive",
+          position: "top"
+        });
+      } catch (e) {
+        Notify.create({
+          message: "Пороль не был обновлен. Введите Старый пороль правельно",
+          color: "negative",
+          position: "top"
+        });
+      }
+    },
+
+    async ChangeUserData({ commit }, data) {
+      try {
+        let resp = await api.put("auth/name", data);
+      } catch (e) {}
     },
 
     TOKEN_SET_GLOBALLY({ commit }) {
@@ -52,9 +83,14 @@ export default {
           this.$router.push("/seller");
           break;
       }
+    },
+
+    USET_DATA(state, payload) {
+      state.userData = payload;
     }
   },
   getters: {
-    userInfo: state => state.userInfo
+    userInfo: state => state.userInfo,
+    userData: state => state.userData
   }
 };

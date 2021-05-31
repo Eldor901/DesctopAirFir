@@ -29,12 +29,22 @@ const routes = [
         path: "/admin/shoes",
         name: "shoes",
         component: () => import("pages/Admin/Shoes")
+      },
+      {
+        path: "/admin/settings",
+        name: "settings",
+        component: () => import("pages/Admin/Settings")
       }
     ]
   },
   {
     path: "/admin/addProduct",
     name: "addProduct",
+    component: () => import("pages/Admin/AddProduct")
+  },
+  {
+    path: "/admin/editproduct/:id",
+    name: "editProduct",
     component: () => import("pages/Admin/AddProduct")
   },
 

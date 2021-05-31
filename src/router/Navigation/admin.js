@@ -8,5 +8,10 @@ export const AdminRoutes = [
     name: "employees",
     icon_name: "perm_identity",
     text: "Продавцы"
+  },
+  {
+    name: "settings",
+    icon_name: "settings",
+    text: "Настройки"
   }
 ];

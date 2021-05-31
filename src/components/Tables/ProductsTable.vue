@@ -1,7 +1,9 @@
 <template>
   <div>
+    <products-filter v-if="showFilter" />
     <q-table
       :loading="$store.state.products.getInfoProductsLoading"
+      :pagination="initialPagination"
       :data="
         $store.state.products.getInfoProductsData &&
           $store.state.products.getInfoProductsData.products
@@ -18,6 +20,12 @@
             @click="$router.push({ name: 'addProduct' })"
           />
           <q-btn color="primary" label="Обновить" icon="refresh" />
+          <q-btn
+            color="primary"
+            label="Фильтры"
+            @click="showFilter = !showFilter"
+            icon="filter_list"
+          />
         </div>
       </template>
       <template v-slot:top-left>
@@ -30,11 +38,20 @@
       <template v-slot:body-cell-action="props">
         <td>
           <div class="seller_container">
-            <q-icon name="delete_outline" class="icon_negative" />
-            {{ props.id }}
             <q-icon
-              class="q-ml-sm icon_negative cursor-pointer"
-              name="lock_open"
+              name="delete_outline "
+              class="icon_negative"
+              @click="deleteProduct(props.key)"
+            />
+            <q-icon
+              class="q-ml-sm icon_hover"
+              @click="$router.push({ path: `admin/editproduct/${props.key}` })"
+              name="edit"
+            />
+            <q-icon
+              class="q-ml-sm icon_hover"
+              name="list"
+              @click="partialUpdate(props.key)"
             />
           </div>
         </td>
@@ -64,13 +81,20 @@
 </template>
 
 <script>
+import ProductsFilter from "../Filters/ProductsFilter.vue";
 export default {
+  components: { ProductsFilter },
   name: "SnikkersTable",
   data() {
     return {
+      showFilter: false,
+      initialPagination: {
+        rowsPerPage: this.$store.getters.getFilterData.take
+        // rowsNumber: xx if getting data from a server
+      },
       params: {
-        take: 1,
-        page: 1
+        take: this.$store.getters.getFilterData.take,
+        page: this.$store.getters.getFilterData.page
       },
       columns: [
         {
@@ -103,16 +127,24 @@ export default {
   },
 
   async created() {
-    await this.$store.dispatch("FetchAllProducts", this.params);
+    await this.$store.dispatch("FetchAllProducts");
   },
-
   methods: {
     async refresh() {
       await this.$store.dispatch("FetchAllProducts");
     },
 
+    async deleteProduct(id) {
+      await this.$store.dispatch("DeleteProduct", id);
+    },
+
+    async partialUpdate(id) {
+      await this.$store.dispatch("PartialUpdateProduct", id);
+    },
+
     async pagination() {
-      await this.$store.dispatch("FetchAllProducts", this.params);
+      await this.$store.commit("setFilter", this.params);
+      await this.$store.dispatch("FetchAllProducts");
     }
   }
 };
@@ -124,5 +156,13 @@ export default {
 }
 .pagination {
   margin: 20px auto;
+}
+
+.icon_hover {
+  font-size: 20px;
+  &:hover {
+    color: $warning;
+    font-size: 25px !important;
+  }
 }
 </style>

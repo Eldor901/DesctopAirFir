@@ -1,5 +1,5 @@
 <template>
-  <admin-page-content title="Добавить обувь">
+  <admin-page-content title="Добавить обувь" returnBack="true">
     <div class="border-container">
       <q-form
         @submit="onSubmit"
@@ -19,17 +19,22 @@
             </div>
             <div class="row">
               <div class="q-my-md q-mx-sm col-6">
-                <upload-file-field @getfileUrl="form.image = $event" />
+                {{ form.image }}
+                <upload-file-field
+                  @getfileUrl="form.image = $event"
+                  :showFile="true"
+                  :url="form.image"
+                />
               </div>
             </div>
           </div>
           <div class="col-7">
-            <add-product-form @onFormSumbit="onFormSumbit" />
+            <add-product-form :formData="form" @onFormSumbit="onFormSumbit" />
           </div>
         </div>
         <div class="q-gutter-sm text-right content-end q-my-md q-mx-md">
           <q-btn
-            label="Добавить"
+            :label="$route.params.id ? 'Изменить' : 'Добавить'"
             class="q-px-lg"
             color="primary"
             type="submit"
@@ -55,7 +60,15 @@ export default {
       form: {}
     };
   },
-  mounted() {},
+  async created() {
+    if (this.$route.params.id) {
+      let resp = await this.$store.dispatch(
+        "FetchProduct",
+        this.$route.params.id
+      );
+      this.form = resp;
+    }
+  },
   methods: {
     onFormSumbit(form) {
       this.form = form;
@@ -64,7 +77,12 @@ export default {
       console.log(this.form);
     },
     onSubmit() {
-      console.log("submut", this.form);
+      if (this.$route.params.id) {
+        this.$store.dispatch("UpdateProduct", {
+          id: this.$route.params.id,
+          form: this.form
+        });
+      } else this.$store.dispatch("CreateProduct", this.form);
     },
     onReset() {
       //reset for rerendiring component with empty value

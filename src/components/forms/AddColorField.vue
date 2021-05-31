@@ -29,7 +29,12 @@
       </q-btn>
       <q-icon name="arrow_drop_down" style="font-size: 20px" color="primary" />
     </div>
-    <q-btn class="q-ml-sm col-lg-9 col-md-7"> Выбрать файл</q-btn>
+    <div
+      class="q-ml-sm col-lg-9 col-md-7"
+      :class="{ lower_opacity: choosenColor.texture }"
+    >
+      <upload-file-field @getfileUrl="onFileUploaded" />
+    </div>
     <div
       class="row q-ml-sm delete icon_hover delete_icon content-center app_border delete"
     >
@@ -44,16 +49,18 @@
 </template>
 
 <script>
+import UploadFileField from "./UploadFileField.vue";
 export default {
+  components: { UploadFileField },
   name: "AddColorField",
-  props: ["allColors", "idRenderColor"],
+  props: ["renderValue", "allColors", "idRenderColor"],
   data() {
     return {
       choosenColor: {
-        name: this.allColors[0].name || "red",
-        colorId: this.allColors[0].id || "0",
+        name: this.renderValue.name || this.allColors[0].name || "red",
+        colorId: this.renderValue.colorId || this.allColors[0].id || "0",
         renderId: this.idRenderColor || "0",
-        texture: ""
+        texture: this.renderValue.texture || ""
       },
       colors: [],
       colorsOption: []
@@ -62,11 +69,16 @@ export default {
   created() {
     this.$emit("onSelect", this.choosenColor);
   },
+
   methods: {
     onSelect(color) {
       this.choosenColor.colorId = color.id;
       this.choosenColor.name = color.name;
       this.renderId = this.idRenderColor;
+      this.$emit("onSelect", this.choosenColor);
+    },
+    onFileUploaded(event) {
+      this.choosenColor.texture = event;
       this.$emit("onSelect", this.choosenColor);
     }
   }

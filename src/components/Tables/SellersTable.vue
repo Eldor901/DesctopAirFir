@@ -37,7 +37,7 @@
           <div class="seller_container">
             <q-icon
               name="delete_outline"
-              class="icon_negative"
+              class="icon_negative cursor-pointer"
               @click="deleteUser(props.key)"
             />
             {{ props.id }}

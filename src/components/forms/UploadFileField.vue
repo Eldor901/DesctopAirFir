@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ upload_photo_small_continer: !showFile }">
     <!-- <input
       style="display: none"
       id="file-upload"
@@ -10,14 +10,27 @@
     asd -->
     <label class="file-select">
       <!-- We can't use a normal button element here, as it would become the target of the label. -->
-      <div class="select-button row justify-center content-center">
+      <div
+        class="select-button row justify-center content-center"
+        :class="{ upload_photo_small: !showFile }"
+      >
         <!-- Display the filename if a file has been selected. -->
 
-        <div v-if="!photoUrl">
-          <template>Выбрать файл</template>
+        <div>
+          <template v-if="!showFile">
+            <template v-if="photoUrl || this.url">
+              Файл Выбран
+            </template>
+            <template v-else>
+              Выбрать Файл
+            </template>
+          </template>
+          <template v-if="showFile && !photoUrl && !this.url"
+            >Выбрать файл</template
+          >
         </div>
 
-        <img :src="photoUrl" />
+        <img v-if="showFile" :src="this.url || photoUrl" />
       </div>
       <!-- Now, the file input that we hide. -->
       <input
@@ -33,11 +46,14 @@
 <script>
 export default {
   name: "UploadFileField",
+  props: ["showFile", "url"],
   data() {
     return {
-      photoUrl: ""
+      photoUrl: this.url || null
     };
   },
+
+  mounted() {},
 
   methods: {
     async handleFileChange(e) {
@@ -89,5 +105,14 @@ img {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
+}
+
+.upload_photo_small_continer {
+  width: 100%;
+}
+
+.upload_photo_small {
+  height: 20px !important;
+  font-size: 12px !important;
 }
 </style>

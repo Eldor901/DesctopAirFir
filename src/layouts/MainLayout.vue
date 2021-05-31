@@ -69,7 +69,7 @@ export default {
     return {
       left: false,
       active: false,
-      activeRouteName: ""
+      activeRouteName: this.$route.name
     };
   },
   methods: {
