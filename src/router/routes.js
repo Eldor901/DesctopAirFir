@@ -1,4 +1,5 @@
 import { AdminRoutes } from "./Navigation/admin";
+import { SellerRoutes } from "./Navigation/sellers";
 
 function guardAuth(to, from, next) {
   let isAuth = false;
@@ -32,7 +33,7 @@ const routes = [
       },
       {
         path: "/admin/settings",
-        name: "settings",
+        name: "adminSettings",
         component: () => import("pages/Admin/Settings")
       }
     ]
@@ -40,21 +41,39 @@ const routes = [
   {
     path: "/admin/addProduct",
     name: "addProduct",
+    beforeEnter: guardAuth,
     component: () => import("pages/Admin/AddProduct")
   },
   {
     path: "/admin/editproduct/:id",
     name: "editProduct",
+    beforeEnter: guardAuth,
     component: () => import("pages/Admin/AddProduct")
   },
 
   {
     path: "/seller",
-    name: "seller",
-    component: () => import("pages/Seller/Seller")
+    component: () => import("layouts/MainLayout.vue"),
+    props: { routes: SellerRoutes },
+    beforeEnter: guardAuth,
+    children: [
+      {
+        path: "/seller",
+        name: "orders",
+        component: () => import("pages/Seller/Orders")
+      },
+      {
+        path: "/seller/comments",
+        name: "сomments",
+        component: () => import("pages/Seller/Comments")
+      },
+      {
+        path: "/settings",
+        name: "sellerSettings",
+        component: () => import("pages/Seller/Settings")
+      }
+    ]
   },
-  // Always leave this as last one,
-  // but you can also remove it
 
   {
     path: "/login",

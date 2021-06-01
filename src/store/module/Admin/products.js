@@ -32,7 +32,6 @@ export default {
     },
 
     async FetchAllProducts(store) {
-      console.log(store.getters.getFilterData);
       try {
         await doAsync(
           store,
@@ -140,6 +139,10 @@ export default {
     },
     setFilter(state, payload) {
       state.filterData = Object.assign({}, state.filterData, payload);
+    },
+    clearFilter(state, payload) {
+      console.error("clearFilter");
+      state.filterData = Object.assign({}, state.filterData, {});
     }
   },
   getters: {

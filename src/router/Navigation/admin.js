@@ -10,7 +10,7 @@ export const AdminRoutes = [
     text: "Продавцы"
   },
   {
-    name: "settings",
+    name: "adminSettings",
     icon_name: "settings",
     text: "Настройки"
   }

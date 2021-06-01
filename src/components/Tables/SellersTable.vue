@@ -67,7 +67,7 @@ export default {
         {
           name: "email",
           required: true,
-          label: "email",
+          label: "Электронная почта",
           align: "left",
           field: "email",
           sortable: true

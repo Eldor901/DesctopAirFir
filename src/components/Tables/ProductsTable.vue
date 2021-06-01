@@ -19,7 +19,12 @@
             label="Добавить"
             @click="$router.push({ name: 'addProduct' })"
           />
-          <q-btn color="primary" label="Обновить" icon="refresh" />
+          <q-btn
+            color="primary"
+            label="Обновить"
+            @click="refresh"
+            icon="refresh"
+          />
           <q-btn
             color="primary"
             label="Фильтры"
@@ -29,7 +34,13 @@
         </div>
       </template>
       <template v-slot:top-left>
-        <q-input dense debounce="300" placeholder="поиск по названию">
+        <q-input
+          dense
+          debounce="300"
+          @keyup.enter="onSearch"
+          v-model="form.search"
+          placeholder="поиск по названию"
+        >
           <template v-slot:append>
             <q-icon name="search" />
           </template>
@@ -92,6 +103,9 @@ export default {
         rowsPerPage: this.$store.getters.getFilterData.take
         // rowsNumber: xx if getting data from a server
       },
+      form: {
+        search: ""
+      },
       params: {
         take: this.$store.getters.getFilterData.take,
         page: this.$store.getters.getFilterData.page
@@ -131,6 +145,8 @@ export default {
   },
   methods: {
     async refresh() {
+      this.showFilter = false;
+      await this.$store.commit("clearFilter", {});
       await this.$store.dispatch("FetchAllProducts");
     },
 
@@ -140,6 +156,11 @@ export default {
 
     async partialUpdate(id) {
       await this.$store.dispatch("PartialUpdateProduct", id);
+    },
+
+    async onSearch() {
+      await this.$store.commit("setFilter", this.form);
+      await this.$store.dispatch("FetchAllProducts");
     },
 
     async pagination() {

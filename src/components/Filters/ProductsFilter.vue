@@ -102,6 +102,22 @@
           label="Сезон"
         />
       </div>
+      <div class="col-2">
+        <q-input
+          standout
+          no-error-icon
+          dense
+          @blur="onBlur"
+          filled
+          :value="form.minQuantity"
+          @input="form.minQuantity = Number($event)"
+          label="количество от *"
+          lazy-rules
+          fill-mask="0"
+          reverse-fill-mask
+          mask="#"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -116,7 +132,8 @@ export default {
         typeId: this.$store.getters.getFilterData?.typeId || "",
         genderId: this.$store.getters.getFilterData?.genderId || "",
         minPrice: this.$store.getters.getFilterData?.minPrice || "",
-        maxPrice: this.$store.getters.getFilterData?.maxPrice || ""
+        maxPrice: this.$store.getters.getFilterData?.maxPrice || "",
+        minQuantity: this.$store.getters.getFilterData?.minQuantity || ""
       }
     };
   },

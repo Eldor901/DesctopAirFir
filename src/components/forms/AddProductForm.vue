@@ -183,7 +183,6 @@ export default {
       htmlColors: "",
       renderColors: [],
       allColors: [],
-      
       form: {
         name: "",
         price: 0,

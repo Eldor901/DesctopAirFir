@@ -51,7 +51,7 @@
         dense
         v-model="form.passwordConfirm"
         filled
-        label="Введите новый пороль еше раз *"
+        label="Введите новый пороль еще раз *"
         lazy-rules
         :rules="[repeatPassword]"
       />

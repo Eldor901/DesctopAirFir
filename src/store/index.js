@@ -4,6 +4,7 @@ import auth from "./module/Auth/auth";
 import sellers from "./module/Admin/sellers";
 import products from "./module/Admin/products";
 import uploadfile from "./module/file/uploadfile";
+import orders from "./module/Sellers/orders";
 
 // import example from './module-example'
 
@@ -24,7 +25,8 @@ export default function(/* { ssrContext } */) {
       auth,
       sellers,
       products,
-      uploadfile
+      uploadfile,
+      orders
     },
 
     // enable strict mode (adds overhead!)

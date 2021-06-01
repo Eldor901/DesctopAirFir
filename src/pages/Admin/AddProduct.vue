@@ -1,9 +1,12 @@
 <template>
   <admin-page-content title="Добавить обувь" returnBack="true">
-    <div class="border-container">
+    <div v-if="loading">
+      <q-spinner color="primary" size="3em" />
+    </div>
+    <div class="border-container" v-else>
       <q-form
         @submit="onSubmit"
-        v-if="!reset"
+        v-if="reset"
         @reset="onReset"
         class="q-gutter-md"
       >
@@ -19,7 +22,6 @@
             </div>
             <div class="row">
               <div class="q-my-md q-mx-sm col-6">
-                {{ form.image }}
                 <upload-file-field
                   @getfileUrl="form.image = $event"
                   :showFile="true"
@@ -41,7 +43,6 @@
           />
           <q-btn label="Очистить" type="reset" class="q-px-lg" />
         </div>
-        {{ form }}
       </q-form>
     </div>
   </admin-page-content>
@@ -56,26 +57,27 @@ export default {
   components: { AdminPageContent, AddProductForm, UploadFileField },
   data() {
     return {
-      reset: false,
+      reset: true,
+      loading: false,
       form: {}
     };
   },
   async created() {
     if (this.$route.params.id) {
+      this.loading = true;
       let resp = await this.$store.dispatch(
         "FetchProduct",
         this.$route.params.id
       );
       this.form = resp;
+      this.loading = false;
     }
   },
   methods: {
     onFormSumbit(form) {
       this.form = form;
     },
-    onAdd() {
-      console.log(this.form);
-    },
+    onAdd() {},
     onSubmit() {
       if (this.$route.params.id) {
         this.$store.dispatch("UpdateProduct", {
@@ -86,11 +88,11 @@ export default {
     },
     onReset() {
       //reset for rerendiring component with empty value
-      this.form = null;
-      this.onFormReset = null;
-      this.reset = true;
+      this.reset = false;
       setTimeout(() => {
-        this.reset = false;
+        this.form = {};
+        this.onFormReset = null;
+        this.reset = true;
       }, 10);
     }
   }
