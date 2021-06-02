@@ -10,7 +10,7 @@
       :columns="columns"
       row-key="id"
     >
-      <template v-slot:top-right>
+      <template v-slot:top-right="props">
         <div class="q-gutter-sm">
           <q-btn
             color="primary"
@@ -21,6 +21,7 @@
         </div>
         <q-select
           @input="onStatusChange"
+          clearable
           class="q-ml-sm border_default"
           style="min-width: 200px"
           outlined
@@ -30,19 +31,28 @@
           :options="options"
           label="статус"
         />
+        <q-btn
+          flat
+          color="primary"
+          round
+          dense
+          :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+          @click="props.toggleFullscreen"
+          class="q-ml-md"
+        />
       </template>
-      <template v-slot:top-left="props">
-        <div class="q-gutter-sm">
-          <q-btn
-            flat
-            color="primary"
-            round
-            dense
-            :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
-            @click="props.toggleFullscreen"
-            class="q-ml-md"
-          />
-        </div>
+      <template v-slot:top-left="">
+        <q-input
+          dense
+          debounce="300"
+          @keyup.enter="refresh"
+          v-model="params.search"
+          placeholder="поиск"
+        >
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
       </template>
       <template v-slot:bottom="">
         <div class="pagination">
@@ -63,12 +73,54 @@
           />
         </div>
       </template>
+      <template v-slot:body-cell-action="props">
+        <td>
+          <div class="seller_container">
+            <div v-if="props.row.status === 'На обработке'">
+              <q-icon
+                class="q-ml-sm icon_hover"
+                name="airport_shuttle"
+                style="font-size: 25px"
+                @click="sendOrder(props.key)"
+              />
+              <q-tooltip>
+                Отправить
+              </q-tooltip>
+            </div>
+            <div class="row" v-else-if="props.row.status === 'Возврат'">
+              <div class="col-6">
+                <q-icon
+                  class="q-mr-lg icon_hover"
+                  name="assignment_return"
+                  style="font-size: 25px"
+                  @click="returnMoney(props.key)"
+                />
+                <q-tooltip>
+                  Возврат денег
+                </q-tooltip>
+              </div>
+              <div class="col-6">
+                <q-icon
+                  class="q-ml-sm icon_hover"
+                  name="block"
+                  style="font-size: 25px"
+                  @click="cancelReturn(props.key)"
+                />
+                <q-tooltip>
+                  Отменить Возврат
+                </q-tooltip>
+              </div>
+            </div>
+          </div>
+        </td>
+      </template>
       ></q-table
     >
   </div>
 </template>
 
 <script>
+const perPage = 10;
 export default {
   name: "OrdersTable",
   data() {
@@ -82,11 +134,12 @@ export default {
         "Возвращено"
       ],
       initialPagination: {
-        rowsPerPage: 10
+        rowsPerPage: perPage
       },
       params: {
-        take: 10,
+        take: perPage,
         status: "",
+        search: null,
         page: 1
       },
       columns: [
@@ -145,6 +198,13 @@ export default {
           label: "Статус",
           align: "left",
           field: "status"
+        },
+        {
+          name: "action",
+          required: true,
+          label: "",
+          align: "left",
+          field: "actions"
         }
       ]
     };
@@ -161,8 +221,9 @@ export default {
 
     async refresh() {
       this.params = {
-        take: 10,
-        status: "",
+        take: perPage,
+        status: this.params.status,
+        search: this.params.search,
         page: 1
       };
       await this.$store.dispatch("FetchAllOrders", this.params);
@@ -172,18 +233,29 @@ export default {
       await this.$store.dispatch("FetchAllOrders", this.params);
     },
 
+    async sendOrder(id) {
+      await this.$store.dispatch("SendOrder", id);
+      await this.refresh();
+    },
+
+    async returnMoney(id) {
+      await this.$store.dispatch("ReturnMoney", id);
+      await this.refresh();
+    },
+
+    async cancelReturn(id) {
+      await this.$store.dispatch("CanselReturn", id);
+      await this.refresh();
+    },
+
     toggle(e) {
       const target = e.target.parentNode.parentNode.parentNode;
 
       this.$q.fullscreen
         .toggle(target)
-        .then(() => {
-          // success!
-        })
+        .then(() => {})
         .catch(err => {
           alert(err);
-          // uh, oh, error!!
-          // console.error(err)
         });
     }
   }

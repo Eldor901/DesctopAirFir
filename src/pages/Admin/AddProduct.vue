@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import AdminPageContent from "src/layouts/AdminPageContent.vue";
+import AdminPageContent from "src/layouts/PageContent.vue";
 import AddProductForm from "src/components/forms/AddProductForm.vue";
 import UploadFileField from "src/components/forms/UploadFileField.vue";
 export default {

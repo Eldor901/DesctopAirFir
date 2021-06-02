@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AdminPageContent from "src/layouts/AdminPageContent.vue";
+import AdminPageContent from "src/layouts/PageContent.vue";
 import settings from "src/pages/Settings.vue";
 
 export default {

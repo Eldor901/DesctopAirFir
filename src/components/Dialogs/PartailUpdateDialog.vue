@@ -62,7 +62,7 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Добавить" color="primary" @click="onYesClick" />
+          <q-btn label="Добавить" color="primary" @click="onYesClick" />
           <q-btn flat label="Отменить" color="primary" @click="onNoClick" />
         </q-card-actions>
       </q-card>

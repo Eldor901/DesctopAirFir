@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AdminPageContent from "src/layouts/AdminPageContent.vue";
+import AdminPageContent from "src/layouts/PageContent.vue";
 import ProductsTable from "src/components/Tables/ProductsTable.vue";
 export default {
   components: { AdminPageContent, ProductsTable },

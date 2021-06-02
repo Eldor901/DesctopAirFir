@@ -1,21 +1,31 @@
 <template>
   <div>
     <q-dialog ref="dialog" @hide="onDialogHide">
-      <q-card style="width: 600px">
+      <q-card style="width: 400px">
         <q-card-section>
           <h6 class="q-ma-none">{{ title }}</h6>
         </q-card-section>
-        <q-card-section class="row items-center">
-          <span class="q-ml-sm">
-            <p class="text-subtitle1">
-              {{ text }}
-            </p>
-          </span>
-        </q-card-section>
+
+        <q-input
+          class="q-mx-md"
+          filled
+          v-model="trackCode"
+          dense
+          label="трек-номер"
+          lazy-rules
+          :rules="[
+            val => (val && val.length > 0) || 'Пожалуста введите трек код'
+          ]"
+        />
 
         <q-card-actions align="right">
-          <q-btn label="Да" color="primary" @click="onYesClick" />
-          <q-btn flat label="Нет" color="primary" @click="onNoClick" />
+          <q-btn
+            :disable="!trackCode"
+            label="Отправить"
+            color="primary"
+            @click="onYesClick"
+          />
+          <q-btn flat label="Отменить" color="primary" @click="onNoClick" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -24,8 +34,13 @@
 
 <script>
 export default {
-  props: ["title", "text"],
-  name: "ConfirmDialog",
+  props: ["title"],
+  name: "SendTrackCodeDialog",
+  data() {
+    return {
+      trackCode: ""
+    };
+  },
   methods: {
     show() {
       this.$refs.dialog.show();
@@ -36,7 +51,7 @@ export default {
       this.$refs.dialog.hide();
     },
     onYesClick() {
-      this.$emit("ok");
+      this.$emit("ok", this.trackCode);
       this.hide();
     },
     onDialogHide() {
