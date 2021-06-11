@@ -50,8 +50,8 @@
         <td>
           <div class="seller_container">
             <q-icon
-              name="delete_outline "
-              class="icon_negative"
+              name="delete_outline"
+              class="icon_negative icon_hover"
               @click="deleteProduct(props.key)"
             />
             <q-icon

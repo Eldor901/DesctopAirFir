@@ -14,9 +14,16 @@
           <q-btn
             label="Удалить Комментарий"
             color="primary"
+            class="q-px-md"
             @click="onYesClick"
           />
-          <q-btn flat label="Назад" color="primary" @click="onNoClick" />
+          <q-btn
+            flat
+            label="Назад"
+            class="q-px-md"
+            color="primary"
+            @click="onNoClick"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>

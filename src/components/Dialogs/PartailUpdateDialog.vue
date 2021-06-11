@@ -61,9 +61,20 @@
           </div>
         </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn label="Добавить" color="primary" @click="onYesClick" />
-          <q-btn flat label="Отменить" color="primary" @click="onNoClick" />
+        <q-card-actions align="right" class="q-gutter-sm q-pa-md">
+          <q-btn
+            label="Добавить"
+            class="q-px-md"
+            color="primary"
+            @click="onYesClick"
+          />
+          <q-btn
+            class="q-px-md"
+            flat
+            label="Отменить"
+            color="primary"
+            @click="onNoClick"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>

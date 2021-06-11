@@ -1,7 +1,7 @@
 export const AdminRoutes = [
   {
     name: "addShoes",
-    icon_name: "adjust",
+    icon_name: "airline_seat_legroom_extra",
     text: "Обувь"
   },
   {

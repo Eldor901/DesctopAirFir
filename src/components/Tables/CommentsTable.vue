@@ -47,7 +47,7 @@
           <div class="seller_container">
             <q-icon
               @click="handleComment(props.row)"
-              name="comment"
+              name="chat_bubble_outline"
               class="icon_hover"
               style="font-size: 25px"
             />
