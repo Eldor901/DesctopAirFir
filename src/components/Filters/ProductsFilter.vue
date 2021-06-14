@@ -28,7 +28,7 @@
           dense
           @blur="onBlur"
           filled
-          :value="form.maxPrice"
+          :value="form.maxPrice || 10000"
           @input="form.maxPrice = Number($event)"
           label="цена до (руб) *"
           lazy-rules
@@ -40,6 +40,8 @@
       </div>
       <div class="col-2">
         <q-select
+          clearable
+          clear-icon="close"
           dense
           @blur="onBlur"
           filled
@@ -56,6 +58,8 @@
       </div>
       <div class="col-2">
         <q-select
+          clearable
+          clear-icon="close"
           dense
           @blur="onBlur"
           no-error-icon
@@ -73,6 +77,8 @@
       <div class="col-2">
         <q-select
           @blur="onBlur"
+          clearable
+          clear-icon="close"
           dense
           no-error-icon
           filled
@@ -89,6 +95,8 @@
       <div class="col-2">
         <q-select
           @blur="onBlur"
+          clearable
+          clear-icon="close"
           no-error-icon
           dense
           filled

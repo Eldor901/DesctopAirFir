@@ -160,7 +160,7 @@ export default {
 
     async onSearch() {
       await this.$store.commit("setFilter", this.form);
-      await this.$store.dispatch("FetchAllProducts");
+      await this.$store.dispatch("FetchAllProducts", this.params);
     },
 
     async pagination() {

@@ -59,6 +59,7 @@ export default {
           type: "positive",
           position: "top"
         });
+        this.$router.push({ name: "addShoes" });
       } catch (e) {
         Notify.create({
           message: "Продукт не загрузилось. Все поля должны быть заполнены",
@@ -92,6 +93,8 @@ export default {
           type: "positive",
           position: "top"
         });
+
+        this.$router.push({ name: "addShoes" });
       } catch (e) {
         Notify.create({
           message: "Продукт не загрузилось. Все поля должны быть заполнены",
@@ -141,8 +144,7 @@ export default {
       state.filterData = Object.assign({}, state.filterData, payload);
     },
     clearFilter(state, payload) {
-      console.error("clearFilter");
-      state.filterData = Object.assign({}, state.filterData, {});
+      state.filterData = Object.assign({}, payload, {});
     }
   },
   getters: {

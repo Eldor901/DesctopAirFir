@@ -35,7 +35,7 @@
       <!-- Now, the file input that we hide. -->
       <input
         type="file"
-        accept=".jpg, .jpeg, .png"
+        accept=""
         @drop="handleFileChange"
         @change="handleFileChange"
       />
